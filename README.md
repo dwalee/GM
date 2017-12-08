@@ -1,3 +1,2 @@
 # GM
-Script for automating incidents
-Yoshua and Dwaine's project
+Projects to collaborate on for work
