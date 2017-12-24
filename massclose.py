@@ -1,4 +1,5 @@
 import xlwt
+import xlrd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
@@ -23,53 +24,58 @@ def searchTab():
     driver.get(url)
 
     #Click on Incident Managment tab
-    incidentMan = driver.find_element_by_class_id("ext-gen-top307").click()
+    incidentMan = driver.find_element_by_class_id("ext-gen-top307")
 
     #Click Search Incicdent tab
-    searchIncident = driver.find_element_by_class_id("ext-gen-top332").click()
+    searchIncident = driver.find_element_by_class_id("ext-gen-top332")
 
 
 #Click Incident number edit box
-incidentNumber = driver.find_element_by_id("X11Edit").click()
+incidentNumber = driver.find_element_by_id("X11Edit")
     
 def fillForm():
     #Give input from user to the edit box
     incidentNumber.send_keys(inputParent)
 
     #Click search to search for parent incident
-    searchforInc = driver.find_element_by_class_id("ext-gen-top465").click()
+    searchforInc = driver.find_element_by_class_id("ext-gen-top465")
 
 def linkTicket()
     #Click parent incident checkbox for incident
-    parentCheckBox = driver.find_element_by_class_id("X35Icon").click()
+    parentCheckBox = driver.find_element_by_class_id("X35Icon")
 
     #Write Assignment Group in edit box
-    assignmentG = driver.find_element_by_class_id("x95").click()
+    assignmentG = driver.find_element_by_class_id("x95")
     assignmentG.send_keys(inputAssignGroup)
 
     #Write your GMID in Assignee edit box
-    assignee = driver.find_element_by_class_id("x99").click()
+    assignee = driver.find_element_by_class_id("x99")
     assignee.send_keys(inputAssignee)
 
     #Keyword fill out
-    keyword1 = driver.find_element_by_class_id("x29").click()
     keyword1.send_keys("Itoc-Resolved")
-        
+
+    #Save and Exit
+    save = driver.find_element_by_class_id("ext-gen-listdetail-1-155")
+
+    #Go back to searching for incidents before looping through excel worksheet
+    fillForm()   
 
 #Find all incident numbers in the row
-for i in range(sheet.col(0).length):
+i = 0
+while i <= len(sheet.col(0)):
     if col != "":
-        searchTab()
         
         #Give input from user to the edit box
-        incidentNumber = driver.find_element_by_id("X11Edit").click()
-        incidentNumber.send_keys(sheet.cell(0,i).value)
+        incidentNumber = driver.find_element_by_id("X11Edit")
+        incidentNumber.send_keys(sheet.cell(i,0).value)
 
-        #Search for incident
-        searchforInc = driver.find_element_by_class_id("x-btn-text").click()
-        searchforInc.send_keys(
-        linkToParent = driver.find_element_by_class_id("X37").click()
+        #Link incident to parent ticket
+        linkToParent = driver.find_element_by_class_id("X37")
         linkToParent.send_keys(inputParent)
+
+        #Save and Exit
+        save = driver.find_element_by_class_id("ext-gen-listdetail-1-155")
     else
         break
         
