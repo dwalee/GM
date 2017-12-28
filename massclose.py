@@ -1,5 +1,4 @@
 import xlrd
-from bs4 import BeautifulSoup
 from selenium import webdriver
 
 #Name mass closure list file massclosurelist then this will
@@ -34,11 +33,7 @@ def searchTab():
     searchIncident.find_element_by_xpath(".//a[@tabname='ext-gen-top332']").click()
 
 
-#Click Incident number edit box
-incidentNumber = driver.find_element_by_id("X11Edit")
-incidentNumber.send_keys(inputParent)
-
-def fillForm():
+def fillParentForm():
     #Give input from user to the edit box
     incidentNumber = driver.find_element_by_id(x11)
     incidentNumber.send_keys(inputParent)
@@ -47,7 +42,6 @@ def fillForm():
     searchforInc = driver.find_element_by_id("ext-gen-top570")
     searchIncident.click()
 
-def linkTicket():
     #Click parent incident checkbox for incident
     parentCheckBox = driver.find_elements_by_xpath("//input[@name='instance/master.incident' and @value ='true']")
     parentCheckBox.click()
@@ -70,21 +64,19 @@ def linkTicket():
 
        
 
-fillForm()
-linkTicket()
+fillParentForm()
 #Find all incident numbers in the row
 i = 0
-while i <= len(sheet.col(0)):
-    if col != "":
+while i < len(sheet.col(0)):
 
-        #Click search to search for parent incident
-        searchforInc = driver.find_element_by_id("ext-gen-top570")
-        searchIncident.click()
-        
         #Give input from user to the edit box
         incidentNumber = driver.find_element_by_id("X11Edit")
         incidentNumber.send_keys(sheet.cell(i,0).value)
 
+        #Click search to search for child incident
+        searchforInc = driver.find_element_by_id("ext-gen-top570")
+        searchIncident.click()
+        
         #Link incident to parent ticket
         linkToParent = driver.find_element_by_class_id("X37")
         linkToParent.send_keys(inputParent)
@@ -92,8 +84,10 @@ while i <= len(sheet.col(0)):
         #Save and Exit
         save = driver.find_element_by_class_id("ext-gen-listdetail-1-155")
         save.click()
-    else:
-        break
+
+        i =+1
+
+massclosurelist.Quit()
         
 
 
