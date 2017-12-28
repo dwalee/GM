@@ -1,17 +1,19 @@
-import xlwt
 import xlrd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
 #Name mass closure list file massclosurelist then this will
 #open the file with the mass closure list
-workbook = xlrd.open_workbook('massclosurelist.xls')
+
 
 #Get input from user to find incident
 inputParent = input("Enter Parent Incident")
 inputAssignGroup = input("Enter the Assignment group you need ")
 inputResolution = input("Enter the Resolution")
 inputAssignee = input("Enter your GMID")
+
+
+workbook = xlrd.open_workbook("massclosurelist.xlsx")
 
 def searchTab():
     #Search for incident
@@ -24,28 +26,34 @@ def searchTab():
     driver.get(url)
 
     #Click on Incident Managment tab
-    incidentMan = driver.find_element_by_class_id("ext-gen-top307")
+    incidentMan = driver.find_element_by_xpath("ext-gen-top307")
+    incidentMan.click()
 
     #Click Search Incicdent tab
-    searchIncident = driver.find_element_by_class_id("ext-gen-top332")
+    searchIncident = driver.find_element_by_xpath("//ul[@class='x-tree-node']")
+    searchIncident.find_element_by_xpath(".//a[@tabname='ext-gen-top332']").click()
 
 
 #Click Incident number edit box
 incidentNumber = driver.find_element_by_id("X11Edit")
-    
+incidentNumber.send_keys(inputParent)
+
 def fillForm():
     #Give input from user to the edit box
+    incidentNumber = driver.find_element_by_id(x11)
     incidentNumber.send_keys(inputParent)
 
     #Click search to search for parent incident
-    searchforInc = driver.find_element_by_class_id("ext-gen-top465")
+    searchforInc = driver.find_element_by_id("ext-gen-top570")
+    searchIncident.click()
 
-def linkTicket()
+def linkTicket():
     #Click parent incident checkbox for incident
-    parentCheckBox = driver.find_element_by_class_id("X35Icon")
-
+    parentCheckBox = driver.find_elements_by_xpath("//input[@name='instance/master.incident' and @value ='true']")
+    parentCheckBox.click()
+    
     #Write Assignment Group in edit box
-    assignmentG = driver.find_element_by_class_id("x95")
+    assignmentG = driver.find_element_by_id("x95")
     assignmentG.send_keys(inputAssignGroup)
 
     #Write your GMID in Assignee edit box
@@ -53,18 +61,25 @@ def linkTicket()
     assignee.send_keys(inputAssignee)
 
     #Keyword fill out
+    keyword1.driver.find_element_by_class_id("29")
     keyword1.send_keys("Itoc-Resolved")
 
     #Save and Exit
-    save = driver.find_element_by_class_id("ext-gen-listdetail-1-155")
+    save = driver.find_element_by_id("ext-gen-listdetail-1-155")
+    save.click()
 
-    #Go back to searching for incidents before looping through excel worksheet
-    fillForm()   
+       
 
+fillForm()
+linkTicket()
 #Find all incident numbers in the row
 i = 0
 while i <= len(sheet.col(0)):
     if col != "":
+
+        #Click search to search for parent incident
+        searchforInc = driver.find_element_by_id("ext-gen-top570")
+        searchIncident.click()
         
         #Give input from user to the edit box
         incidentNumber = driver.find_element_by_id("X11Edit")
@@ -76,7 +91,8 @@ while i <= len(sheet.col(0)):
 
         #Save and Exit
         save = driver.find_element_by_class_id("ext-gen-listdetail-1-155")
-    else
+        save.click()
+    else:
         break
         
 
