@@ -4,16 +4,14 @@ from selenium import webdriver
 
 #Name mass closure list file massclosurelist then this will
 #open the file with the mass closure list
-
-
-#Get input from user to find incident
+mass_closure_parameter_file = open('mass_closure_parameter.txt','r+')
 #Get all parameters from text file per line
+mass_closure_parameters = mass_closure_parameter_file.read().split('\n')
 #Assign parameters to inputParent, inputAssignGroup, input Resolution, input Assignee
-
-inputParent = input("Enter Parent Incident")
-inputAssignGroup = input("Enter the Assignment group you need ")
-inputResolution = input("Enter the Resolution")
-inputAssignee = input("Enter your GMID")
+inputParent = mass_closure_parameters[0]
+inputAssignGroup = mass_closure_parameters[1]
+inputResolution = mass_closure_parameters[2]
+inputAssignee = mass_closure_parameters[3]
 
 #Open mass closure list
 workbook = xlrd.open_workbook("massclosurelist.xlsx")
