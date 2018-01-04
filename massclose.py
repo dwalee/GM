@@ -1,3 +1,4 @@
+import time
 import xlrd
 from selenium import webdriver
 
@@ -14,28 +15,33 @@ inputAssignee = input("Enter your GMID")
 
 workbook = xlrd.open_workbook("massclosurelist.xlsx")
 
+xpath = "C:\\Users\\VZKBV1\\Desktop\\Project\\chromedriver.exe"
+#Open up a Chrome browser and navigate to webpage
+driver = webdriver.Chrome(executable_path=xpath)
+#Open up ITSM website
+url = "https://itsm.gm.com"
+driver.get(url)
+time.sleep(3)
+
 def searchTab():
     #Search for incident
     #xpath = "C:\\Users\\hztzny\\AppData\\Local\\Programs\\Python\\Python36-32\\selenium\\webdriver\\firefox\\geckodriver.exe"
-    xpath = "C:\\Users\\vzkbv1\\Desktop\\GSMC\\GeckoDriver\\chromedriver.exe"
-    #Open up a Chrome browser and navigate to webpage
-    driver = webdriver.Chrome(executable_path=xpath)
-    #Open up ITSM website
-    url = "https://itsm.gm.com"
-    driver.get(url)
+    
 
     #Click on Incident Managment tab
-    incidentMan = driver.find_element_by_xpath("ext-gen-top307")
+    incidentMan = driver.find_element_by_xpath('//*[@id="ROOT/Incident Management"]')
     incidentMan.click()
 
+    time.sleep(3)
     #Click Search Incicdent tab
-    searchIncident = driver.find_element_by_xpath("//ul[@class='x-tree-node']")
-    searchIncident.find_element_by_xpath(".//a[@tabname='ext-gen-top332']").click()
+    searchIncident = driver.find_element_by_xpath('//*[@id="ROOT/Incident Management/Search Incidents"]')
+    searchIncident.click()
+    time.sleep(2)
 
 
 def fillParentForm():
     #Give input from user to the edit box
-    incidentNumber = driver.find_element_by_id(x11)
+    incidentNumber = driver.find_element_by_xpath('//*[@name="instance/number"]')
     incidentNumber.send_keys(inputParent)
 
     #Click search to search for parent incident
@@ -59,19 +65,21 @@ def fillParentForm():
     keyword1.send_keys("Itoc-Resolved")
 
     #Save and Exit
-    save = driver.find_element_by_id("ext-gen-listdetail-1-155")
-    save.click()
+    #save = driver.find_element_by_id("ext-gen-listdetail-1-155")
+    #save.click()
 
-       
 
+     
+searchTab()
 fillParentForm()
+incident_list = massclosurelist.sheet_by_index(0)  
 #Find all incident numbers in the row
 i = 0
-while i < len(sheet.col(0)):
+while i < len(incident_list.ncols()):
 
         #Give input from user to the edit box
         incidentNumber = driver.find_element_by_id("X11Edit")
-        incidentNumber.send_keys(sheet.cell(i,0).value)
+        incidentNumber.send_keys(incident_list.cell(i,0).value)
 
         #Click search to search for child incident
         searchforInc = driver.find_element_by_id("ext-gen-top570")
