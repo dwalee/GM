@@ -7,12 +7,15 @@ from selenium import webdriver
 
 
 #Get input from user to find incident
+#Get all parameters from text file per line
+#Assign parameters to inputParent, inputAssignGroup, input Resolution, input Assignee
+
 inputParent = input("Enter Parent Incident")
 inputAssignGroup = input("Enter the Assignment group you need ")
 inputResolution = input("Enter the Resolution")
 inputAssignee = input("Enter your GMID")
 
-
+#Open mass closure list
 workbook = xlrd.open_workbook("massclosurelist.xlsx")
 
 xpath = "C:\\Users\\VZKBV1\\Desktop\\Project\\chromedriver.exe"
@@ -23,6 +26,7 @@ url = "https://itsm.gm.com"
 driver.get(url)
 time.sleep(3)
 
+#Function for navigating to the search incidents tab
 def searchTab():
     #Search for incident
     #xpath = "C:\\Users\\hztzny\\AppData\\Local\\Programs\\Python\\Python36-32\\selenium\\webdriver\\firefox\\geckodriver.exe"
@@ -38,7 +42,7 @@ def searchTab():
     searchIncident.click()
     time.sleep(2)
 
-
+#Function for  filling out information for parent incident 
 def fillParentForm():
     #Give input from user to the edit box
     incidentNumber = driver.find_element_by_xpath('//*[@name="instance/number"]')
